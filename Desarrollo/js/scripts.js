@@ -60,28 +60,24 @@ nineColors.addEventListener("change",function(){
 
 //evento boton "generar colores"
 generateColor.addEventListener("click", function() {
-    
+    let color; //variable para almacenar el color generado
+    let numColors; //variable para almacenar la cantidad de colores a generar
+
     const colorContainer = document.querySelector("#color-container");
+
     // elimino todos los hijos del contenedor en caso de que existan
     while (colorContainer.firstChild){
         colorContainer.removeChild(colorContainer.firstChild);
     }
-    //determinar tipo de color a generar
-    let color;
-    if(rgbColors.checked) {
-        color = getRandomColorRGB();
-        console.log("Color RGB generado: " + color);
-        console.log("Tipo de color seleccionado: RGB");
-        hslColors.checked = false; //desmarcar la casilla de HSL si se selecciona RGB
-    } else {
-        color = getRandomColorHSL();
-        console.log("Color HSL generado: " + color);
-        console.log("Tipo de color seleccionado: HSL");
-        rgbColors.checked = false; //desmarcar la casilla de RGB si se selecciona HSL
-    }
-    //determinar tope de cantidad de colores a generar
-    let numColors;
 
+    if(!rgbColors.checked && !hslColors.checked){
+        sixColors.checked = false;
+        eightColors.checked = false;
+        nineColors.checked = false;
+        alert("Por favor, seleccione el tipo de color a generar.");
+    };
+    
+    //determinar tope de cantidad de colores a generar
     if (sixColors.checked) {
         numColors = 6;
         console.log("cantidad de colores : 6");
@@ -91,10 +87,26 @@ generateColor.addEventListener("click", function() {
     } else if (nineColors.checked){
         numColors = 9;
         console.log("cantidad de colores : 9");
+    }else if (!sixColors.checked && !eightColors.checked && !nineColors.checked) {
+        alert("Por favor, seleccione la cantidad de colores a generar.");
     };
+
 
     //crear y mostrar contenedor de los colores
     for (let i = 0; i < numColors; i++) {
+        //determinar tipo de color a generar
+        if(rgbColors.checked) {
+            color = getRandomColorRGB();
+            console.log("Color RGB generado: " + color);
+            console.log("Tipo de color seleccionado: RGB");
+            hslColors.checked = false; //desmarcar la casilla de HSL si se selecciona RGB
+        } else {
+            color = getRandomColorHSL();
+            console.log("Color HSL generado: " + color);
+            console.log("Tipo de color seleccionado: HSL");
+            rgbColors.checked = false; //desmarcar la casilla de RGB si se selecciona HSL
+        }
+
         const div = document.createElement("div");
         div.classList.add("color-container");
 
