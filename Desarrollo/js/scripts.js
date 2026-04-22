@@ -8,16 +8,16 @@ function getRandomColorRGBA() {
 }
 
 function getRandomColorHSL() {
-    let hue = Math.floor(Math.random() * 361);  // Hue entre 0 y 360
-    let saturation = Math.floor(Math.random() * 101);  // Saturación entre 0 y 100%
-    let lightness = Math.floor(Math.random() * 101);  // Luminosidad entre 0 y 100%
+    let hue = Math.floor(Math.random() * 361);
+    let saturation = Math.floor(Math.random() * 101);
+    let lightness = Math.floor(Math.random() * 101);
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
 
 // Convertir HSL a HEX
 function hslToHex(hsl) {
-    const regex = /hsl\((\d+), (\d+)%?, (\d+)%?\)/;
-    const match = hsl.match(regex);
+    const regex = /hsl\((\d+), (\d+)%?, (\d+)%?\)/; //expresión regular para verificar el formato HSL, y extraer los valores de h, s, y l.
+    const match = hsl.match(regex); //verifica si la cadena de texto coincide con el formato HSL y extrae los valores de h, s y l.
 
     if (match) {
         let h = parseInt(match[1]);
@@ -62,8 +62,8 @@ function hslToHex(hsl) {
 
 //Convertir RGBA a HEX
 function rgbaToHex (rgba) {
-    const rgbaRegex = /^rgba\((\d+), (\d+), (\d+), [0-1](?:\.\d+)?\)$/;
-    const match = rgba.match(rgbaRegex);
+    const rgbaRegex = /^rgba\((\d+), (\d+), (\d+), [0-1](?:\.\d+)?\)$/; //análogo a HSL, pero para RGBA
+    const match = rgba.match(rgbaRegex); //análogo a HSL, verifica si coindice y extrae los datos de rojo, verde, azul y alfa.
 
     if (match) {
         const r = parseInt(match[1]);
@@ -78,7 +78,7 @@ function rgbaToHex (rgba) {
     };
 }
 
-//dependencia del tipo y cantidad de colores
+//constantes para referenciar a los elementos que contienen tipo y cantidad de color
 const rgbaColors = document.querySelector("#rgbaColors");
 const hslColors = document.querySelector("#hslColors");
 
@@ -142,7 +142,7 @@ generateColor.addEventListener("click", function() {
         alert("Por favor, seleccione el tipo de color a generar.");
     };
     
-    //determinar tope de cantidad de colores a generar
+    //determinar cantidad de colores a generar
     if (sixColors.checked) {
         numColors = 6;
         console.log("cantidad de colores : 6");
