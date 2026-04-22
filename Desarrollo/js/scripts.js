@@ -1,12 +1,3 @@
-//funcion para generar colores aleatorios
-function getRandomColorRGBA() {
-    let red = Math.floor(Math.random() * 256);
-    let green = Math.floor(Math.random() * 256);
-    let blue = Math.floor(Math.random() * 256);
-    let alpha = Math.random().toFixed(2);
-    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
-}
-
 //función para generar colores aleatorios
 function getRandomColorRGBA() {
     let red = Math.floor(Math.random() * 256);
