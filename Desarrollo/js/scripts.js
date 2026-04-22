@@ -1,20 +1,94 @@
 //funcion para generar colores aleatorios
-function getRandomColorRGB() {
+function getRandomColorRGBA() {
     let red = Math.floor(Math.random() * 256);
     let green = Math.floor(Math.random() * 256);
     let blue = Math.floor(Math.random() * 256);
-    return `rgb(${red}, ${green}, ${blue})`;
+    let alpha = Math.random().toFixed(2);
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+}
+
+//función para generar colores aleatorios
+function getRandomColorRGBA() {
+    let red = Math.floor(Math.random() * 256);
+    let green = Math.floor(Math.random() * 256);
+    let blue = Math.floor(Math.random() * 256);
+    let alpha = Math.random().toFixed(2);
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 }
 
 function getRandomColorHSL() {
-    let hue = Math.floor(Math.random() * 361);
-    let saturation = Math.floor(Math.random() * 101);
-    let lightness = Math.floor(Math.random() * 101);
+    let hue = Math.floor(Math.random() * 361);  // Hue entre 0 y 360
+    let saturation = Math.floor(Math.random() * 101);  // Saturación entre 0 y 100%
+    let lightness = Math.floor(Math.random() * 101);  // Luminosidad entre 0 y 100%
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
 
+// Convertir HSL a HEX
+function hslToHex(hsl) {
+    const regex = /hsl\((\d+), (\d+)%?, (\d+)%?\)/;
+    const match = hsl.match(regex);
+
+    if (match) {
+        let h = parseInt(match[1]);
+        let s = parseInt(match[2]);
+        let l = parseInt(match[3]);
+
+        s /= 100;
+        l /= 100;
+
+        let c = (1 - Math.abs(2 * l - 1)) * s;
+        let x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        let m = l - c / 2;
+
+        let r, g, b;
+
+        if (h >= 0 && h < 60) {
+            r = c; g = x; b = 0;
+        } else if (h >= 60 && h < 120) {
+            r = x; g = c; b = 0;
+        } else if (h >= 120 && h < 180) {
+            r = 0; g = c; b = x;
+        } else if (h >= 180 && h < 240) {
+            r = 0; g = x; b = c;
+        } else if (h >= 240 && h < 300) {
+            r = x; g = 0; b = c;
+        } else {
+            r = c; g = 0; b = x;
+        }
+
+        r = Math.round((r + m) * 255);
+        g = Math.round((g + m) * 255);
+        b = Math.round((b + m) * 255);
+
+        const toHex = (num) => {
+            const hex = num.toString(16);
+            return hex.length === 1 ? "0" + hex : hex;
+        };
+
+        return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+}
+
+//Convertir RGBA a HEX
+function rgbaToHex (rgba) {
+    const rgbaRegex = /^rgba\((\d+), (\d+), (\d+), [0-1](?:\.\d+)?\)$/;
+    const match = rgba.match(rgbaRegex);
+
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+
+        const toHex = (num) => {
+            const hex = num.toString(16);
+            return hex.length === 1 ? "0" + hex : hex;
+        };
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    };
+}
+
 //dependencia del tipo y cantidad de colores
-const rgbColors = document.querySelector("#rgbColors");
+const rgbaColors = document.querySelector("#rgbaColors");
 const hslColors = document.querySelector("#hslColors");
 
 const sixColors = document.querySelector("#sixColors");
@@ -24,15 +98,15 @@ const nineColors = document.querySelector("#nineColors");
 //evento seleccionar tipo de color
 const generateColor = document.querySelector("#generateColors");
 
-rgbColors.addEventListener("change", function() {
-    if(rgbColors.checked) {
-        hslColors.checked = false; //desmarca la casilla de HSL si se selecciona RGB
+rgbaColors.addEventListener("change", function() {
+    if(rgbaColors.checked) {
+        hslColors.checked = false; //desmarca la casilla de HSL si se selecciona RGBA
     }
 });
 
 hslColors.addEventListener("change", function() {
     if(hslColors.checked) {
-        rgbColors.checked = false; //desmaraca la casilla de RGB si se selecciona HSL
+        rgbaColors.checked = false; //desmaraca la casilla de RGBA si se selecciona HSL
     }
 });
 
@@ -70,7 +144,7 @@ generateColor.addEventListener("click", function() {
         colorContainer.removeChild(colorContainer.firstChild);
     }
 
-    if(!rgbColors.checked && !hslColors.checked){
+    if(!rgbaColors.checked && !hslColors.checked){
         sixColors.checked = false;
         eightColors.checked = false;
         nineColors.checked = false;
@@ -95,16 +169,18 @@ generateColor.addEventListener("click", function() {
     //crear y mostrar contenedor de los colores
     for (let i = 0; i < numColors; i++) {
         //determinar tipo de color a generar
-        if(rgbColors.checked) {
-            color = getRandomColorRGB();
-            console.log("Color RGB generado: " + color);
-            console.log("Tipo de color seleccionado: RGB");
-            hslColors.checked = false; //desmarcar la casilla de HSL si se selecciona RGB
+        if(rgbaColors.checked) {
+            color = getRandomColorRGBA();
+            color = rgbaToHex(color);
+            console.log("Color RGBA generado: " + color);
+            console.log("Tipo de color seleccionado: RGBA");
+            hslColors.checked = false; //desmarcar la casilla de HSL si se selecciona RGBA
         } else {
             color = getRandomColorHSL();
+            color = hslToHex(color);
             console.log("Color HSL generado: " + color);
             console.log("Tipo de color seleccionado: HSL");
-            rgbColors.checked = false; //desmarcar la casilla de RGB si se selecciona HSL
+            rgbaColors.checked = false; //desmarcar la casilla de RGBA si se selecciona HSL
         }
 
         const div = document.createElement("div");
