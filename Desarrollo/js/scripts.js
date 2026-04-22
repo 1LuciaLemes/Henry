@@ -174,20 +174,23 @@ generateColor.addEventListener("click", function() {
             rgbaColors.checked = false; //desmarcar la casilla de RGBA si se selecciona HSL
         }
 
-        const div = document.createElement("div");
-        div.classList.add("color-container");
+        const divColor = document.createElement("div");//creo el divColor para almacenar el color aleatoreo
+        divColor.classList.add("color-container");
 
-        div.style.backgroundColor = color;
-        div.style.borderRadius = "5px";
-        div.style.border = "2px solid brown";
-        // div.style.transform = "rotate(40deg)";
+        divColor.style.backgroundColor = color;
+        divColor.style.borderRadius = "5px";
+        divColor.style.border = "2px solid brown";
+        // divColor.style.transform = "rotate(40deg)";
         console.log ("color generado");
-        colorContainer.appendChild(div);
         console.log("contenedor creado");
 
-        const p = document.createElement("p");
+        const p = document.createElement("p");//creo el elemento p para mostrar el código HEX del color generado.
         p.textContent = color;
         p.classList.add("hex-code");
-        div.appendChild(p);
+
+        const colorItemContainer = document.createElement("div");//creo un contenedor para cada color, que contenga el divColor y el HEX de ese color.
+        colorItemContainer.appendChild(divColor);
+        colorItemContainer.appendChild(p);
+        colorContainer.appendChild(colorItemContainer);
     }
 });
